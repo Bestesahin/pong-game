@@ -1,26 +1,38 @@
-PONG OYUNU - SFML
+PONG OYUNU - C++ / SFML
 
-Dosyalar:
+Bu proje, iki oyunculu klasik Pong oyunudur.
+Oyun C++ dili ve SFML kütüphanesi kullanılarak geliştirilmiştir.
+
+Proje Dosyaları:
 - main.cpp
 - CMakeLists.txt
 - README.txt
+- arial.ttf
+- SFML DLL dosyaları
 
-Calistirmak icin:
-1) SFML kurulu olmali.
-2) Proje klasorune arial.ttf font dosyasi koyulmalı.
-3) VS Code terminalinde derleme komutu:
-
-g++ main.cpp -IC:\SFML\include -LC:\SFML\lib -lsfml-graphics -lsfml-window -lsfml-system -o pong.exe
-
-4) C:\SFML\bin icindeki sfml-graphics, sfml-window ve sfml-system DLL dosyalarini proje klasorune kopyala.
-5) Calistir:
-
-pong.exe
+Oyunun Amacı:
+İki oyuncu kendi paddle çubuklarını kontrol ederek topu karşı tarafa göndermeye çalışır.
+Topu kaçıran oyuncunun rakibi puan kazanır.
+5 puana ulaşan oyuncu oyunu kazanır.
 
 Kontroller:
-Sol oyuncu: W / S
-Sag oyuncu: Yukari ok / Asagi ok
-R: Oyunu yeniden baslat
+Sol oyuncu:
+W = Yukarı
+S = Aşağı
 
-Oyun kurali:
-5 puana ulasan oyuncu oyunu kazanir.
+Sağ oyuncu:
+Yukarı ok = Yukarı
+Aşağı ok = Aşağı
+
+R = Oyunu yeniden başlat
+
+Çalıştırmak İçin:
+Terminale şu komut yazılır:
+
+.\pong.exe
+
+Derleme Komutu:
+C:\mingw64\bin\g++.exe main.cpp -std=c++17 -IC:\SFML-3.1.0-windows-gcc-14.2.0-mingw-64-bit\SFML-3.1.0\include -LC:\SFML-3.1.0-windows-gcc-14.2.0-mingw-64-bit\SFML-3.1.0\lib -lsfml-graphics -lsfml-window -lsfml-system -o pong.exe
+
+Not:
+Oyunun çalışması için arial.ttf ve gerekli SFML DLL dosyaları proje klasöründe bulunmalıdır.
