@@ -116,6 +116,8 @@ int main()
             if (ball.getGlobalBounds().findIntersection(leftPaddle.getGlobalBounds()).has_value())
             {
                 ballSpeedX = std::abs(ballSpeedX);
+                ballSpeedX *= 1.05f;
+
                 float paddleCenter = leftPaddle.getPosition().y + leftPaddle.getSize().y / 2.f;
                 float ballCenter = ball.getPosition().y + ball.getRadius();
                 ballSpeedY = (ballCenter - paddleCenter) / 15.f;
@@ -124,6 +126,8 @@ int main()
             if (ball.getGlobalBounds().findIntersection(rightPaddle.getGlobalBounds()).has_value())
             {
                 ballSpeedX = -std::abs(ballSpeedX);
+                ballSpeedX *= 1.05f;
+
                 float paddleCenter = rightPaddle.getPosition().y + rightPaddle.getSize().y / 2.f;
                 float ballCenter = ball.getPosition().y + ball.getRadius();
                 ballSpeedY = (ballCenter - paddleCenter) / 15.f;
