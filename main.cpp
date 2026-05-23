@@ -31,12 +31,14 @@ int main()
 
     int leftScore = 0;
     int rightScore = 0;
+
     bool gameOver = false;
+    bool paused = false;
 
     Font font;
     if (!font.openFromFile("arial.ttf"))
     {
-        std::cout << "arial.ttf bulunamadi. Proje klasorune arial.ttf koyun." << std::endl;
+        std::cout << "arial.ttf bulunamadi." << std::endl;
         return 0;
     }
 
@@ -44,13 +46,17 @@ int main()
     scoreText.setFillColor(Color::White);
     scoreText.setPosition(Vector2f(370.f, 20.f));
 
-    Text infoText(font, "Sol: W/S     Sag: Yukari/Asagi     R: Yeniden Baslat", 20);
+    Text infoText(font, "Sol: W/S   Sag: Yukari/Asagi   R: Restart   P: Pause", 20);
     infoText.setFillColor(Color::White);
-    infoText.setPosition(Vector2f(190.f, 560.f));
+    infoText.setPosition(Vector2f(120.f, 560.f));
 
     Text winnerText(font, "", 45);
     winnerText.setFillColor(Color::Yellow);
     winnerText.setPosition(Vector2f(220.f, 260.f));
+
+    Text pauseText(font, "PAUSED", 55);
+    pauseText.setFillColor(Color::Yellow);
+    pauseText.setPosition(Vector2f(300.f, 240.f));
 
     RectangleShape middleLine(Vector2f(4.f, 600.f));
     middleLine.setPosition(Vector2f(448.f, 0.f));
@@ -67,10 +73,13 @@ int main()
     {
         leftScore = 0;
         rightScore = 0;
+
         gameOver = false;
+        paused = false;
 
         leftPaddle.setPosition(Vector2f(40.f, 240.f));
         rightPaddle.setPosition(Vector2f(840.f, 240.f));
+
         ball.setPosition(Vector2f(444.f, 294.f));
 
         ballSpeedX = 5.f;
@@ -92,45 +101,82 @@ int main()
             resetGame();
         }
 
-        if (!gameOver)
+        if (Keyboard::isKeyPressed(Keyboard::Key::P))
         {
-            if (Keyboard::isKeyPressed(Keyboard::Key::W) && leftPaddle.getPosition().y > 0)
+            paused = !paused;
+            sleep(milliseconds(200));
+        }
+
+        if (!gameOver && !paused)
+        {
+            if (Keyboard::isKeyPressed(Keyboard::Key::W) &&
+                leftPaddle.getPosition().y > 0)
+            {
                 leftPaddle.move(Vector2f(0.f, -paddleSpeed));
+            }
 
-            if (Keyboard::isKeyPressed(Keyboard::Key::S) && leftPaddle.getPosition().y + leftPaddle.getSize().y < HEIGHT)
+            if (Keyboard::isKeyPressed(Keyboard::Key::S) &&
+                leftPaddle.getPosition().y + leftPaddle.getSize().y < HEIGHT)
+            {
                 leftPaddle.move(Vector2f(0.f, paddleSpeed));
+            }
 
-            if (Keyboard::isKeyPressed(Keyboard::Key::Up) && rightPaddle.getPosition().y > 0)
+            if (Keyboard::isKeyPressed(Keyboard::Key::Up) &&
+                rightPaddle.getPosition().y > 0)
+            {
                 rightPaddle.move(Vector2f(0.f, -paddleSpeed));
+            }
 
-            if (Keyboard::isKeyPressed(Keyboard::Key::Down) && rightPaddle.getPosition().y + rightPaddle.getSize().y < HEIGHT)
+            if (Keyboard::isKeyPressed(Keyboard::Key::Down) &&
+                rightPaddle.getPosition().y + rightPaddle.getSize().y < HEIGHT)
+            {
                 rightPaddle.move(Vector2f(0.f, paddleSpeed));
+            }
 
             ball.move(Vector2f(ballSpeedX, ballSpeedY));
 
-            if (ball.getPosition().y <= 0 || ball.getPosition().y + ball.getRadius() * 2 >= HEIGHT)
+            if (ball.getPosition().y <= 0 ||
+                ball.getPosition().y + ball.getRadius() * 2 >= HEIGHT)
             {
                 ballSpeedY = -ballSpeedY;
             }
 
-            if (ball.getGlobalBounds().findIntersection(leftPaddle.getGlobalBounds()).has_value())
+            if (ball.getGlobalBounds()
+                    .findIntersection(leftPaddle.getGlobalBounds())
+                    .has_value())
             {
                 ballSpeedX = std::abs(ballSpeedX);
+
                 ballSpeedX *= 1.05f;
 
-                float paddleCenter = leftPaddle.getPosition().y + leftPaddle.getSize().y / 2.f;
-                float ballCenter = ball.getPosition().y + ball.getRadius();
-                ballSpeedY = (ballCenter - paddleCenter) / 15.f;
+                float paddleCenter =
+                    leftPaddle.getPosition().y +
+                    leftPaddle.getSize().y / 2.f;
+
+                float ballCenter =
+                    ball.getPosition().y + ball.getRadius();
+
+                ballSpeedY =
+                    (ballCenter - paddleCenter) / 15.f;
             }
 
-            if (ball.getGlobalBounds().findIntersection(rightPaddle.getGlobalBounds()).has_value())
+            if (ball.getGlobalBounds()
+                    .findIntersection(rightPaddle.getGlobalBounds())
+                    .has_value())
             {
                 ballSpeedX = -std::abs(ballSpeedX);
+
                 ballSpeedX *= 1.05f;
 
-                float paddleCenter = rightPaddle.getPosition().y + rightPaddle.getSize().y / 2.f;
-                float ballCenter = ball.getPosition().y + ball.getRadius();
-                ballSpeedY = (ballCenter - paddleCenter) / 15.f;
+                float paddleCenter =
+                    rightPaddle.getPosition().y +
+                    rightPaddle.getSize().y / 2.f;
+
+                float ballCenter =
+                    ball.getPosition().y + ball.getRadius();
+
+                ballSpeedY =
+                    (ballCenter - paddleCenter) / 15.f;
             }
 
             if (ball.getPosition().x < 0)
@@ -158,18 +204,30 @@ int main()
             }
         }
 
-        scoreText.setString(std::to_string(leftScore) + "       " + std::to_string(rightScore));
+        scoreText.setString(
+            std::to_string(leftScore) +
+            "       " +
+            std::to_string(rightScore));
 
         window.clear(Color(20, 20, 60));
+
         window.draw(middleLine);
         window.draw(leftPaddle);
         window.draw(rightPaddle);
         window.draw(ball);
+
         window.draw(scoreText);
         window.draw(infoText);
 
         if (gameOver)
+        {
             window.draw(winnerText);
+        }
+
+        if (paused)
+        {
+            window.draw(pauseText);
+        }
 
         window.display();
     }
