@@ -36,3 +36,5 @@ C:\mingw64\bin\g++.exe main.cpp -std=c++17 -IC:\SFML-3.1.0-windows-gcc-14.2.0-mi
 
 Not:
 Oyunun çalışması için arial.ttf ve gerekli SFML DLL dosyaları proje klasöründe bulunmalıdır.
+GITHUB REPOSITORY
+https://github.com/Bestesahin/pong-game
