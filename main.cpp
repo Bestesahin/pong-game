@@ -15,11 +15,11 @@ int main()
 
     RectangleShape leftPaddle(Vector2f(20.f, 120.f));
     leftPaddle.setPosition(Vector2f(40.f, 240.f));
-    leftPaddle.setFillColor(Color::White);
+    leftPaddle.setFillColor(Color::Cyan);
 
     RectangleShape rightPaddle(Vector2f(20.f, 120.f));
     rightPaddle.setPosition(Vector2f(840.f, 240.f));
-    rightPaddle.setFillColor(Color::White);
+    rightPaddle.setFillColor(Color::Red);
 
     CircleShape ball(12.f);
     ball.setPosition(Vector2f(444.f, 294.f));
@@ -160,7 +160,7 @@ int main()
 
         scoreText.setString(std::to_string(leftScore) + "       " + std::to_string(rightScore));
 
-        window.clear(Color::Black);
+        window.clear(Color(20, 20, 60));
         window.draw(middleLine);
         window.draw(leftPaddle);
         window.draw(rightPaddle);
